@@ -19,7 +19,9 @@ nnoremap Y y$
 
 # PLUGINS SETUP {{{
 g:vim_markdown_folding_disabled = 1
+g:Run_run_before = 'sp | wincmd J'
 g:Run_compilewin_cur = 1
+g:Run_runwin_cur = 1
 g:sbline_dynamic_tabline = 1
 g:sbline_show_bfnr = 0
 # }}}
@@ -27,7 +29,8 @@ g:sbline_show_bfnr = 0
 # PLUGINS {{{
 plug#begin()
     # absolutely needed
-    Plug 'gboncoffee/run.vim'
+    # Plug 'gboncoffee/run.vim'
+    Plug '~/src/run.vim'
     Plug 'gboncoffee/lf.vim'
     Plug 'gboncoffee/statusbufferline.vim'
     Plug 'junegunn/fzf.vim'
