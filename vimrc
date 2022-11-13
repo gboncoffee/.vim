@@ -1,7 +1,4 @@
 vim9script
-
-var init_time = str2nr(system("date +%N"))
-
 var data_dir = '~/.vim'
 if empty(glob(data_dir .. '/autoload/plug.vim'))
     silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
@@ -174,11 +171,6 @@ augroup FiletypeSettings
     autocmd FileType fzf set laststatus=0 | autocmd BufLeave <buffer> set laststatus=1
     autocmd FileType qf,fugitive,git,gitcommit,run-compiler nnoremap <buffer> q :bd<CR>
 augroup END
-
-augroup SourceTime
-    autocmd!
-    autocmd VimEnter * echo 'Vim sourcered your vimrc in' g:vim_source_diff_time 'nanoseconds'
-augroup END
 # }}}
 
 # HIGHLIGHTS {{{
@@ -193,7 +185,7 @@ def IsIn(c: list<string>, i: string): number
     return 0
 enddef
 
-var light_schemes = [ 'Doom-One-Light.yml', 'Catppuccin-Latte.yml', 'VSCode-Light.yml', 'Tokyo-Night-Day.yml' ]
+var light_schemes = [ 'Doom-One-Light.yml', 'Catppuccin-Latte.yml', 'VSCode-Light.yml' ]
 var filepath = resolve($HOME .. "/.config/alacritty/colors.yml")
 filepath = strpart(filepath, strridx(filepath, '/') + 1)
 if !IsIn(light_schemes, filepath)
@@ -225,5 +217,3 @@ augroup END
 hi LineNrAbove  ctermfg = DarkGrey
 hi LineNrBelow  ctermfg = DarkGrey
 # }}}
-
-g:vim_source_diff_time = str2nr(system("date +%N")) - init_time
