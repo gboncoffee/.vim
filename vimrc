@@ -29,8 +29,7 @@ g:sbline_show_bfnr = 0
 # PLUGINS {{{
 plug#begin()
     # absolutely needed
-    # Plug 'gboncoffee/run.vim'
-    Plug '~/src/run.vim'
+    Plug 'gboncoffee/run.vim'
     Plug 'gboncoffee/lf.vim'
     Plug 'gboncoffee/statusbufferline.vim'
     Plug 'junegunn/fzf.vim'
