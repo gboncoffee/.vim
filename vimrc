@@ -14,6 +14,7 @@ set path+=**
 set hidden
 set conceallevel=2
 set ttimeoutlen=100
+set background=dark
 runtime! ftplugin/man.vim
 nnoremap Y y$
 
@@ -33,7 +34,6 @@ plug#begin()
     Plug 'gboncoffee/lf.vim'
     Plug 'gboncoffee/statusbufferline.vim'
     Plug 'junegunn/fzf.vim'
-    Plug 'andymass/vim-matchup'
     # editing
     Plug 'junegunn/vim-easy-align'
     Plug 'tpope/vim-commentary'
@@ -44,9 +44,6 @@ plug#begin()
     Plug 'tpope/vim-fugitive'
     # langs
     Plug 'kchmck/vim-coffee-script'
-    Plug 'preservim/vim-markdown'
-    # kawaii
-    Plug 'ryanoasis/vim-devicons'
 plug#end()
 # }}}
 
@@ -158,8 +155,9 @@ nnoremap <Space>f  :LfNoChangeCwd<CR>
 nnoremap <Space>n  :LfChangeCwd<CR>
 nnoremap <Space>s  :s//g<Left><Left>
 nnoremap <Space>%s :%s//g<Left><Left>
-nnoremap <Space>l  :setlocal nu! rnu!<CR>
-nnoremap <C-n>     :nohl<CR>
+nnoremap <C-l>     :nohl<CR>
+nnoremap <C-d>     <C-d>zz
+nnoremap <C-u>     <C-u>zz
 # }}}
 
 # AUTOCMDS {{{
@@ -170,49 +168,4 @@ augroup FiletypeSettings
     autocmd FileType fzf set laststatus=0 | autocmd BufLeave <buffer> set laststatus=1
     autocmd FileType qf,fugitive,git,gitcommit,run-compiler nnoremap <buffer> q :bd<CR>
 augroup END
-# }}}
-
-# HIGHLIGHTS {{{
-
-# checks my colorscheme
-def IsIn(c: list<string>, i: string): number
-    for item in c
-        if item == i
-            return 1
-        endif
-    endfor
-    return 0
-enddef
-
-var light_schemes = [ 'Doom-One-Light.yml', 'Catppuccin-Latte.yml', 'VSCode-Light.yml' ]
-var filepath = resolve($HOME .. "/.config/alacritty/colors.yml")
-filepath = strpart(filepath, strridx(filepath, '/') + 1)
-if !IsIn(light_schemes, filepath)
-    set background=dark
-endif
-
-def HighlightOnEnter()
-    if getwinvar(winnr(), "&t_Co") != "8"
-        hi TabLineFill  NONE
-        hi StatusLine   NONE
-        hi VertSplit    NONE
-        hi StatusLineNC NONE
-
-        hi TabLineFill  ctermfg = DarkGrey
-        hi StatusLine   ctermfg = White
-        hi VertSplit    ctermfg = White
-        hi StatusLineNC ctermfg = DarkGrey
-
-        hi Comment      ctermfg = DarkGrey cterm = italic  
-        hi Visual       ctermfg = Black    ctermbg = DarkGrey cterm = bold
-    endif
-enddef
-
-augroup HighlightOnEnter
-    autocmd!
-    autocmd VimEnter * call HighlightOnEnter()
-augroup END
-
-hi LineNrAbove  ctermfg = DarkGrey
-hi LineNrBelow  ctermfg = DarkGrey
 # }}}
