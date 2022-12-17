@@ -19,51 +19,31 @@ runtime! ftplugin/man.vim
 nnoremap Y y$
 
 # PLUGINS SETUP {{{
-g:vim_markdown_folding_disabled = 1
 g:Run_run_before = 'sp | wincmd J'
 g:Run_compilewin_cur = 1
 g:Run_runwin_cur = 1
-g:sbline_dynamic_tabline = 1
-g:sbline_show_bfnr = 0
 # }}}
 
 # PLUGINS {{{
 plug#begin()
     # absolutely needed
     Plug 'gboncoffee/run.vim'
-    Plug 'gboncoffee/lf.vim'
-    Plug 'gboncoffee/statusbufferline.vim'
     Plug 'junegunn/fzf.vim'
     # editing
     Plug 'junegunn/vim-easy-align'
     Plug 'tpope/vim-commentary'
     # helpers
-    Plug 'tpope/vim-eunuch'
     Plug 'tpope/vim-rsi'
-    # git
-    Plug 'tpope/vim-fugitive'
     # langs
     Plug 'kchmck/vim-coffee-script'
 plug#end()
-# }}}
-
-# MINOR SETS {{{
-g:sbline_ignore = [ "lf", "quickfix", "nofile", "fugitive" ]
-
-def SetDefaultCompilers()
-	g:Run_filetype_defaults["markdown"] = "mdcat $#"
-	g:Run_filetype_defaults["lua"]      = "luajit $#"
-enddef
-augroup CompilerDefaults
-	autocmd VimEnter * call SetDefaultCompilers()
-augroup END
 # }}}
 
 # GREAT DEFAULTS {{{
 # appearance/visual helpers
 set nowrap
 set signcolumn=no
-set scrolloff=5
+set scrolloff=10
 set showcmd
 set hlsearch
 # editor
@@ -87,36 +67,11 @@ g:fzf_layout = {
     'down': '30%' 
 }
 
-def Apropos2Man(entry: string = "")
-    var page = entry
-    var section = ''
-    var page_ind = match(page, " ")
-    var op_ind = match(page, "(")
-    var cp_ind = match(page, ")")
-
-    if page_ind > -1
-        page = slice(page, 0, page_ind - 1)
-    endif
-    if (op_ind > -1) && (cp_ind > -1)
-        section = slice(entry, op_ind + 1, cp_ind)
-    endif
-
-    if !empty(page)
-        exe 'Man' section page
-    endif
-enddef
-
-command! -nargs=1 OpenManFromApropos Apropos2Man(<q-args>)
 command! -bang -nargs=* Rg
             \ fzf#vim#grep(
             \ 'rg --glob "!*.git*" --column --line-number --no-heading --color=always --smart-case --hidden -- ' .. shellescape(<q-args>), 1,
             \ fzf#vim#with_preview(), <bang>0)
 
-var fzf_man_opts = {
-    'source': 'man -k .',
-    'sink': 'OpenManFromApropos',
-    'options': "-e +i --tiebreak=begin,chunk --preview-window=\"hidden\""}
-command! -nargs=0 FZFMan fzf#run(fzf#wrap(fzf_man_opts))
 # }}}
 
 # MAPPINGS {{{
@@ -144,17 +99,9 @@ nnoremap <Space>cs   :Run btm<CR>
 nnoremap <Space>cm   :Run ncmpcpp<CR>
 # fzf
 nnoremap <Space>. :FZF<CR>
-nnoremap <Space>m :FZFMan<CR>
 nnoremap <Space>h :Helptags<CR>
 nnoremap <Space>/ :Rg<CR>
 # others
-nmap ga <Plug>(EasyAlign)
-xmap ga <Plug>(EasyAlign)
-nnoremap <Space>g  :G<CR>
-nnoremap <Space>f  :LfNoChangeCwd<CR>
-nnoremap <Space>n  :LfChangeCwd<CR>
-nnoremap <Space>s  :s//g<Left><Left>
-nnoremap <Space>%s :%s//g<Left><Left>
 nnoremap <C-l>     :nohl<CR>
 nnoremap <C-d>     <C-d>zz
 nnoremap <C-u>     <C-u>zz
