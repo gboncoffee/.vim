@@ -28,14 +28,11 @@ g:Run_runwin_cur = 1
 plug#begin()
     # absolutely needed
     Plug 'gboncoffee/run.vim'
-    Plug 'junegunn/fzf.vim'
     # editing
     Plug 'junegunn/vim-easy-align'
     Plug 'tpope/vim-commentary'
     # helpers
     Plug 'tpope/vim-rsi'
-    # langs
-    Plug 'kchmck/vim-coffee-script'
 plug#end()
 # }}}
 
@@ -62,18 +59,6 @@ set completeopt=menu
 set incsearch
 # }}}
 
-# FZF {{{
-g:fzf_layout = { 
-    'down': '30%' 
-}
-
-command! -bang -nargs=* Rg
-            \ fzf#vim#grep(
-            \ 'rg --glob "!*.git*" --column --line-number --no-heading --color=always --smart-case --hidden -- ' .. shellescape(<q-args>), 1,
-            \ fzf#vim#with_preview(), <bang>0)
-
-# }}}
-
 # MAPPINGS {{{
 nnoremap <Space><Space> /<++><CR>4xi
 
@@ -97,10 +82,6 @@ nnoremap <Space>cj   :Run node<CR>
 nnoremap <Space>ch   :Run ghci<CR>
 nnoremap <Space>cs   :Run btm<CR>
 nnoremap <Space>cm   :Run ncmpcpp<CR>
-# fzf
-nnoremap <Space>. :FZF<CR>
-nnoremap <Space>h :Helptags<CR>
-nnoremap <Space>/ :Rg<CR>
 # others
 nnoremap <C-l>     :nohl<CR>
 nnoremap <C-d>     <C-d>zz
@@ -112,7 +93,6 @@ nnoremap <C-u>     <C-u>zz
 augroup FiletypeSettings
     autocmd!
     autocmd FileType python,shell,sh set formatoptions-=t
-    autocmd FileType fzf set laststatus=0 | autocmd BufLeave <buffer> set laststatus=1
     autocmd FileType qf,fugitive,git,gitcommit,run-compiler nnoremap <buffer> q :bd<CR>
 augroup END
 # }}}
